@@ -2,28 +2,33 @@
 
 /* eslint-env node */
 
+
+
+
 function parseHeaders(text) {
     let obj = {};
+    let parsed = text.split('\n');
+    let i = 0;
     obj.headers = {};
     obj.code = {};
-    let parsedLines = text.split('\n');
 
-    for (let i = 0; i < parsedLines.length; i++) {
+    while (i < parsed.length) {
       if (i === 0) {
-          let versionStatusData = parsedLines[i].split(' ');
-          obj.version = versionStatusData[0];
-          obj.code = versionStatusData[1];
+          let versionData = parsed[i].split(' ');
+          obj.version = versionData[0];
+          obj.code = versionData[1];
       }
       else {
-        let line = parsedLines[i].split(': ');
+        let line = parsed[i].split(': ');
         if (line.length === 2) {
           obj.headers[line[0]] = line[1];
         }
       }
-      obj.body = parsedLines.join();
+      obj.body = parsed.join();
+      i++;
     }
-
     return obj;
+
 }
 
 module.exports = parseHeaders;
